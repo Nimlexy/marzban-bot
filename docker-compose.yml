@@ -1,0 +1,29 @@
+version: '3.9'
+
+services:
+  bot:
+    build: .
+    container_name: vpn_bot
+    restart: always
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:15
+    container_name: vpn_db
+    restart: always
+    environment:
+      POSTGRES_DB: vpn_db
+      POSTGRES_USER: vpn_user
+      POSTGRES_PASSWORD: vpn_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
